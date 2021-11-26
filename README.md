@@ -1,4 +1,6 @@
-# logapp
+# Daily Log Application
+
+This is prototype Daily Log Application based on Web Application with Nuxtjs + Vuetify
 
 ## Build Setup
 
