@@ -29,12 +29,12 @@ export default function ({
   error,
 }) {
   // Force logout ketika state masih login tapi token cookies expired
-  if (app.$auth.loggedIn && !app.$cookies.get('auth._token.local')) {
+  if (app.$auth.loggedIn) {
     app.$auth.logout();
     return false;
   }
 
-  const auth = app.$cookies.get('auth._user');
+  const auth = app.$auth.user;
   const { matched } = route;
   const oPath = _.last(matched);
 

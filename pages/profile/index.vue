@@ -26,8 +26,8 @@ export default {
     FormUser,
   },
   // middleware: 'rbac',
-  async asyncData({ app }) {
-    const user = await app.$cookies.get('auth._user') || null;
+  asyncData({ app }) {
+    const user = null;
 
     console.log('async data : ', user);
     return {
