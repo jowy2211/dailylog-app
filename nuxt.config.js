@@ -1,6 +1,10 @@
 import colors from 'vuetify/es5/util/colors'
+const {
+  APP_URL,
+} = process.env;
 
 export default {
+  ssr: false,
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
@@ -11,12 +15,98 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { property: 'author', content: 'unjustorono' },
+      { property: 'og:locale', content: 'en_US' },
+      {
+        hid: 'title',
+        name: 'title',
+        content: 'Daily Log Application',
+      },
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'Supernova Daily Log Application.',
+      },
+      {
+        hid: 'og:type',
+        property: 'og:type',
+        content: 'website',
+      },
+      {
+        hid: 'og:url',
+        property: 'og:url',
+        content: `${APP_URL}`,
+      },
+      {
+        hid: 'og:site_name',
+        property: 'og:site_name',
+        content: 'Daily Log Application',
+      },
+      {
+        hid: 'og:title',
+        property: 'og:title',
+        content: 'Daily Log Application',
+      },
+      {
+        hid: 'og:description',
+        property: 'og:description',
+        content: 'Supernova Daily Log Application.',
+      },
+      {
+        hid: 'og:image',
+        property: 'og:image',
+        itemprop: 'image',
+        content: `${APP_URL}/spn-icon.png`,
+      },
+      {
+        hid: 'og:image:width',
+        property: 'og:image:width',
+        content: '500',
+      },
+      {
+        hid: 'og:image:height',
+        property: 'og:image:height',
+        content: '500',
+      },
+      {
+        hid: 'og:image:alt',
+        property: 'og:image:alt',
+        content: 'Daily Log Application',
+      },
+      {
+        hid: 'og:image:type',
+        property: 'og:image:type',
+        content: 'image/webp',
+      },
+      {
+        hid: 'twitter:card',
+        property: 'twitter:card',
+        content: 'summary_large_image',
+      },
+      {
+        hid: 'twitter:url',
+        property: 'twitter:url',
+        content: `${APP_URL}`,
+      },
+      {
+        hid: 'twitter:title',
+        property: 'twitter:title',
+        content: 'Daily Log Application',
+      },
+      {
+        hid: 'twitter:description',
+        property: 'twitter:description',
+        content: 'Supernova Daily Log Application.',
+      },
+      {
+        hid: 'twitter:image',
+        property: 'twitter:image',
+        content: `${APP_URL}/spn-icon.png`,
+      },
     ],
     link: [
-      { rel: 'icon', type: 'image/png', href: '/spn-icon.png' }
-    ]
+      { rel: 'icon', type: 'image/png', href: '/spn-icon.png' },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -46,56 +136,18 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
-    ['cookie-universal-nuxt', { parseJSON: true }],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // baseURL: 'https://api.fas.pluginesia.com/',
-  },
-
-  auth: {
-    // baseURL: 'https://api.fas.pluginesia.com/',
-    localStorage: false,
-    redirect: {
-      login: '/login',
-      logout: '/logout',
-      callback: false,
-      home: false,
-    },
-    strategies: {
-      local: {
-        token: {
-          property: 'token',
-          global: true,
-          required: true,
-          // type: 'Bearer'
-        },
-        endpoints: {
-          login: {
-            url: 'auth/login',
-            method: 'post',
-          },
-          logout: false,
-          user: false,
-        },
-      },
-    },
-    cookie: {
-      options: {
-        secure: true,
-        maxAge: 1200000,
-      },
-    },
-  },
-
-  router: {
-    // middleware: ['auth'],
+    baseURL: '/'
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
+    treeShake: true,
     theme: {
       dark: false,
       themes: {
@@ -123,5 +175,19 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+    transpile: ['vuetify/lib', 'defu'],
+    publicPath: '',
+    extractCSS: {
+      ignoreOrder: true
+    },
+  },
+  render: {
+    bundleRenderer: {
+      shouldPreload: (file, type) => ['script', 'style', 'font'].includes(type),
+    },
+  },
+  server: {
+    host: '0.0.0.0',
+    port: 3000
+  },
 }
