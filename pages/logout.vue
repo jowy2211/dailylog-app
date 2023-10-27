@@ -1,58 +1,41 @@
 <template>
   <v-container>
-    <div class="dailylog-app_text-center">
-      <v-overlay :value="true" style="z-index: 999;">
-        <v-row>
-          <v-col>
-            <v-progress-circular indeterminate :button="true" size="100">
-              <v-img
-                src="/rgb-banner.png"
-                class="mx-auto"
-                alt="Rolling Glory"
-                max-height="50"
-                max-width="100"
-                lazy-src="/rgb-banner.png"
-              />
-            </v-progress-circular>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col class="text-center">
-            Waiting to logout...
-          </v-col>
-        </v-row>
-      </v-overlay>
-    </div>
+    <v-overlay>
+      <v-card flat rounded="circle">
+        <v-card-text>
+          <v-progress-circular indeterminate :button="true" color="primary" size="120">
+            <v-img
+              src="/spn-logo.png"
+              class="mx-auto"
+              alt="Supernova Logo"
+              max-height="50"
+              max-width="100"
+              lazy-src="/spn-logo.png"
+            />
+          </v-progress-circular>
+        </v-card-text>
+      </v-card>
+      <v-row>
+        <v-col class="text-center">
+          Waiting to logout...
+        </v-col>
+      </v-row>
+    </v-overlay>
   </v-container>
 </template>
 
 <script>
 export default {
   name: 'Logout',
-  layout: 'logout',
-  middleware: [
-    ({ app, redirect }) => {
-      if (!app.$auth.loggedIn && !app.$cookies.get('auth._user')) return redirect('/');
-      return true;
-    },
-    'isAuth',
-  ],
+  layout: 'auth',
   head: {
     title: 'Waiting to logout...',
   },
   mounted() {
-    if (this.$auth.user) {
-      this.logout();
-    }
+    setTimeout(() => {
+      this.$router.push('/login');
+    }, 3000);
   },
-  methods: {
-    logout() {
-      this.cleanData();
-      this.$auth.logout();
-    },
-    async cleanData() {
-      await this.$cookies.remove('auth._user');
-    },
-  },
+  methods: {},
 };
 </script>

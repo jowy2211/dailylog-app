@@ -31,7 +31,7 @@ export default {
   components: {
     CardProjects,
   },
-  middleware: 'rbac',
+  // middleware: 'rbac',
   data() {
     return {}
   },

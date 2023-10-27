@@ -6,7 +6,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - Rolling Glory',
+    titleTemplate: '%s - Supernova Daily Log',
     title: 'Daily Log App',
     meta: [
       { charset: 'utf-8' },
@@ -15,7 +15,7 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/png', href: '/rgb-icon.png' }
+      { rel: 'icon', type: 'image/png', href: '/spn-icon.png' }
     ]
   },
 
@@ -45,19 +45,17 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
     '@nuxtjs/auth-next',
     ['cookie-universal-nuxt', { parseJSON: true }],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'https://api.fas.pluginesia.com/',
+    // baseURL: 'https://api.fas.pluginesia.com/',
   },
 
   auth: {
-    baseURL: 'https://api.fas.pluginesia.com/',
+    // baseURL: 'https://api.fas.pluginesia.com/',
     localStorage: false,
     redirect: {
       login: '/login',
@@ -92,14 +90,7 @@ export default {
   },
 
   router: {
-    middleware: ['auth'],
-  },
-
-  // PWA module configuration: https://go.nuxtjs.dev/pwa
-  pwa: {
-    manifest: {
-      lang: 'en'
-    }
+    // middleware: ['auth'],
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
@@ -109,9 +100,18 @@ export default {
       dark: false,
       themes: {
         dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
+          primary: '#22b9b5',
+          accent: '#633d92',
+          secondary: '#496d9f',
+          info: colors.teal.lighten1,
+          warning: colors.amber.base,
+          error: colors.deepOrange.accent4,
+          success: colors.green.accent3
+        },
+        light: {
+          primary: '#22b9b5',
+          accent: '#633d92',
+          secondary: '#496d9f',
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,

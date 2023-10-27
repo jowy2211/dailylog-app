@@ -2,125 +2,106 @@
   <v-app>
     <v-app-bar
       app
-      dense
-      rounded="md"
-      elevation="5"
-      color="white"
+      flat
       hide-on-scroll
+      color="white"
+      elevation="5"
     >
-      <v-container class="py-0 fill-height">
-        <v-img
-          src="/rgb-banner.png"
-          class="mx-auto"
-          alt="Rolling Glory"
-          max-height="50"
-          max-width="200"
-          lazy-src="/rgb-banner.png"
-        />
-        <v-spacer class="d-none d-sm-flex" />
-        <v-responsive max-width="260" class="d-none d-sm-flex">
+      <v-container>
+        <v-row align="center" justify="space-between">
+          <v-col cols="auto">
+            <v-img
+              lazy-src="/spn-logo.png"
+              src="/spn-logo.png"
+              alt="Supernova Logo"
+              height="100%"
+              width="200"
+              contain
+            />
+          </v-col>
+          <v-col cols="auto">
             <v-text-field
               dense
               flat
               hide-details
-              rounded
               solo-inverted
+              class="rounded-lg"
               placeholder="Search . . ."
             />
-          </v-responsive>
+          </v-col>
+        </v-row>
       </v-container>
       <template #extension>
-        <v-container class="py-0 fill-height">
-          <v-btn
-            text
-            small
-            rounded
-            class="my-auto"
-            to="/"
-          >
-            Dashboard
-          </v-btn>
-
-          <v-btn
-            text
-            small
-            rounded
-            class="my-auto"
-            to="/portal/news"
-          >
-            News
-          </v-btn>
-
-          <v-btn
-            text
-            small
-            rounded
-            class="my-auto"
-            to="/portal/bulletin"
-          >
-            Bulletin
-          </v-btn>
+        <v-container>
+          <v-row align="center" justify="space-between">
+            <v-col cols="auto">
+              <v-btn
+                class="rounded-lg text-none"
+                color="primary"
+                text
+                plain
+                nuxt
+                link
+                to="/"
+              >
+                Home
+              </v-btn>
+              <v-btn
+                class="rounded-lg text-none"
+                color="primary"
+                text
+                plain
+                nuxt
+                link
+                to="/profile"
+              >
+                Profile
+              </v-btn>
+              <v-btn
+                class="rounded-lg text-none"
+                color="primary"
+                text
+                plain
+                nuxt
+                link
+                to="/projects"
+              >
+                Projects
+              </v-btn>
+            </v-col>
+            <v-col cols="auto">
+              <v-btn
+                class="rounded-lg text-none"
+                color="secondary"
+                text
+                plain
+                nuxt
+                link
+                to="/logout"
+              >
+                Log Out
+              </v-btn>
+            </v-col>
+          </v-row>
         </v-container>
       </template>
     </v-app-bar>
 
-    <v-main class="grey lighten-2">
+    <v-main class="grey lighten-4">
       <v-container>
-        <v-row align="start" justify="space-around">
-          <v-col cols="12" sm="6" md="2">
-            <v-card rounded="xl" elevation="5"  class="my-2">
-              <v-list color="transparent" class="py-5">
-                <v-list-item link to="/profile">
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      Profile
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-
-                <v-list-item link to="/projects">
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      Projects
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-
-                <v-divider class="my-2" />
-
-                <v-list-item>
-                  <v-list-item-content>
-                    <v-btn
-                      color="secondary"
-                      small
-                      rounded
-                      block
-                      @click="doLogout"
-                    >
-                      Log Out
-                    </v-btn>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list>
-            </v-card>
-          </v-col>
-
-          <v-col cols="12" sm="6" md="10">
-            <nuxt />
-          </v-col>
-        </v-row>
+        <v-breadcrumbs :items="breadcrumbs" />
+        <nuxt />
       </v-container>
     </v-main>
 
     <v-footer
       app
-      rounded="md"
       elevation="5"
       class="text-center"
     >
       <v-row align="center" justify="center">
         <v-col>
-          <span>Rolling Glory &copy; {{ new Date().getFullYear() }}</span>
+          <span>Supernova Corp Ltd. &copy; {{ new Date().getFullYear() }}</span>
         </v-col>
       </v-row>
     </v-footer>
@@ -131,11 +112,19 @@
 export default {
   name: 'Home',
   data () {
-    return {}
+    return {
+      breadcrumbs: [
+        {
+          text: 'Home',
+          disabled: true,
+          exact: false,
+          to: '/',
+        }
+      ]
+    }
   },
   methods: {
     async doLogout() {
-      await this.$auth.logout();
       await this.$router.push('/logout');
     }
   }

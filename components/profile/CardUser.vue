@@ -1,5 +1,9 @@
 <template>
-  <v-card class="logo my-2 d-flex justify-center" color="transparent" rounded="xl" flat>
+  <v-card
+    rounded="lg"
+    elevation="5"
+    flat
+  >
       <v-list-item class="grow py-2">
         <v-list-item-avatar color="grey darken-3">
           <v-img
@@ -10,8 +14,8 @@
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title class="text-h5">{{ user && user.displayname }} <span class="caption font-weight-thin">#{{ user && user.uuid }}</span></v-list-item-title>
-          <v-list-item-subtitle class="text-subtitle-2">{{ user && user.email }}</v-list-item-subtitle>
+          <v-list-item-title class="text-h5">Unjust Orono <span class="caption font-weight-thin">#00001</span></v-list-item-title>
+          <v-list-item-subtitle class="text-subtitle-2">unjust@mail.com</v-list-item-subtitle>
         </v-list-item-content>
 
         <v-row

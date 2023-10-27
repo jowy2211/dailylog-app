@@ -1,17 +1,17 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="12">
-      <v-card class="my-2" color="transparent" flat>
-        <v-card-title>Dashboard</v-card-title>
-        <v-card-subtitle>Lorem ipsum dolor sit amet</v-card-subtitle>
-      </v-card>
-      <v-card class="my-2" rounded="xl" elevation="5">
+  <div>
+    <v-card color="transparent" flat>
+      <v-card-title>Welcome,</v-card-title>
+      <v-card-subtitle>Daily Log Application</v-card-subtitle>
+      <v-card-text>
         <CardUser />
-      </v-card>
-      <v-card class="my-2" color="transparent" flat>
-        <v-card-title>Projects</v-card-title>
-        <v-card-subtitle>Active Project</v-card-subtitle>
-        <v-row justify="start" align="start" no-gutters>
+      </v-card-text>
+    </v-card>
+    <v-card color="transparent" flat>
+      <v-card-title>Projects</v-card-title>
+      <v-card-subtitle>Active Project</v-card-subtitle>
+      <v-card-text>
+        <v-row justify="start" align="start">
           <v-col
             v-for="n in 3"
             :key="n"
@@ -23,14 +23,14 @@
             <CardProjects />
           </v-col>
         </v-row>
-      </v-card>
-    </v-col>
-  </v-row>
+      </v-card-text>
+    </v-card>
+  </div>
 </template>
 
 <script>
 import CardUser from '@/components/profile/CardUser.vue';
-import CardProjects from '~/components/project/CardProject.vue';
+import CardProjects from '@/components/project/CardProject.vue';
 
 export default {
   name: 'Home',
@@ -38,7 +38,7 @@ export default {
     CardUser,
     CardProjects,
   },
-  middleware: 'rbac',
+  // middleware: 'rbac',
   data() {
     return {}
   },

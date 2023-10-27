@@ -11,8 +11,9 @@
       <v-col cols="12" class="px-2">
         <v-text-field
           label="What I've Done Today ?"
+          class="rounded-lg"
           solo
-          rounded
+          flat
           dark
           placeholder="Detail activities"
         />
@@ -20,8 +21,9 @@
       <v-col cols="12" class="px-2">
         <v-text-field
           label="Duration"
+          class="rounded-lg"
           solo
-          rounded
+          flat
           dark
           placeholder="How long ?"
         />
@@ -29,10 +31,11 @@
       <v-col cols="12" class="px-2">
         <v-text-field
           label="Any issues ? How are you feeling today ?"
+          class="rounded-lg"
           solo
-          rounded
+          flat
           dark
-          placeholder="Address"
+          placeholder="Share your issues"
         />
       </v-col>
     </v-row>
