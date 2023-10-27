@@ -56,7 +56,7 @@ export default {
         hid: 'og:image',
         property: 'og:image',
         itemprop: 'image',
-        content: `${APP_URL}/spn-icon.png`,
+        content: `${APP_URL}spn-icon.png`,
       },
       {
         hid: 'og:image:width',
@@ -101,7 +101,7 @@ export default {
       {
         hid: 'twitter:image',
         property: 'twitter:image',
-        content: `${APP_URL}/spn-icon.png`,
+        content: `${APP_URL}spn-icon.png`,
       },
     ],
     link: [
