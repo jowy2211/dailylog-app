@@ -106,6 +106,7 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/png', href: '/spn-icon.png' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans&display=swap' },
     ],
   },
 

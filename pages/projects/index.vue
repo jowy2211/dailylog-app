@@ -23,6 +23,7 @@ import CardProjects from '~/components/project/CardProject.vue';
 
 export default {
   name: 'Projects',
+  layout: 'admin',
   components: {
     CardProjects,
   },

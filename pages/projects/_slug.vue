@@ -54,6 +54,7 @@ import FormLog from '@/components/log/FormLog.vue';
 
 export default {
   name: 'DetailProject',
+  layout: 'admin',
   components: {
     FormLog,
   },

@@ -21,6 +21,7 @@ import FormUser from '@/components/profile/FormUser.vue';
 
 export default {
   name: 'Profile',
+  layout: 'admin',
   components: {
     CardUser,
     FormUser,

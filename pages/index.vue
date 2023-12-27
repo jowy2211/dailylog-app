@@ -1,46 +1,79 @@
 <template>
-  <div>
-    <v-card color="transparent" flat>
-      <v-card-title>Welcome,</v-card-title>
-      <v-card-subtitle>Daily Log Application</v-card-subtitle>
-      <v-card-text>
-        <CardUser />
-      </v-card-text>
-    </v-card>
-    <v-card color="transparent" flat>
-      <v-card-title>Projects</v-card-title>
-      <v-card-subtitle>Active Project</v-card-subtitle>
-      <v-card-text>
-        <v-row justify="start" align="start">
-          <v-col
-            v-for="n in 3"
-            :key="n"
-            cols="auto"
-            sm="6"
-            md="4"
-            class="mx-auto"
-          >
-            <CardProjects />
-          </v-col>
-        </v-row>
-      </v-card-text>
-    </v-card>
-  </div>
+  <v-row dense align="center" justify="space-between" class="flex-column fill-height">
+    <v-col cols="auto">
+      <div></div>
+    </v-col>
+    <v-col cols="auto">
+      <v-row align="center" class="flex-column white--text">
+        <v-col cols="auto">
+          <div class="text-h1 font-weight-bold">{{ currentDatetime }}</div>
+        </v-col>
+        <v-col cols="auto">
+          <div class="text-h2 font-weight-bold">Good Afternoon, Unjust.</div>
+        </v-col>
+        <v-col cols="12">
+          <v-form @submit.prevent="doSearch">
+            <v-text-field
+              v-model="search"
+              placeholder="Search"
+              prepend-inner-icon="mdi-magnify"
+              append-icon="mdi-google"
+              solo
+              rounded
+              flat
+            />
+          </v-form>
+        </v-col>
+      </v-row>
+    </v-col>
+    <v-col cols="auto">
+      <v-btn
+        text
+        depressed
+        dark
+        rounded
+        class="text-none"
+        to="/portal"
+      >
+        Go to Portal
+      </v-btn>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
-import CardUser from '@/components/profile/CardUser.vue';
-import CardProjects from '@/components/project/CardProject.vue';
+import moment from 'moment';
 
 export default {
-  name: 'Home',
-  components: {
-    CardUser,
-    CardProjects,
-  },
-  // middleware: 'rbac',
+  name: 'IndexPage',
   data() {
-    return {}
+    return {
+      search: null,
+      currentDatetime: moment().format('HH:mm'),
+      intervalData: null,
+    };
   },
-};
+  mounted() {
+    if (!this.intervalData) {
+      clearInterval(this.intervalData);
+
+      this.intervalData = setInterval(() => {
+        this.handlerCurrentDatetime();
+      }, 1000);
+    }
+  },
+  beforeDestroy() {
+    if (this.intervalData) clearInterval(this.intervalData);
+  },
+  methods: {
+    handlerCurrentDatetime() {
+      this.currentDatetime = moment().format('HH:mm');
+    },
+    doSearch() {
+      window.location = `https://www.google.com/search?q=${this.search}`;
+
+      this.search = null;
+    }
+  }
+}
 </script>

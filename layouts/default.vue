@@ -1,132 +1,77 @@
 <template>
-  <v-app>
-    <v-app-bar
-      app
-      flat
-      hide-on-scroll
-      color="white"
-      elevation="5"
-    >
-      <v-container>
-        <v-row align="center" justify="space-between">
-          <v-col cols="auto">
-            <v-img
-              lazy-src="/spn-logo.png"
-              src="/spn-logo.png"
-              alt="Supernova Logo"
-              height="100%"
-              width="200"
-              contain
-            />
-          </v-col>
-          <v-col cols="auto">
-            <v-text-field
-              dense
-              flat
-              hide-details
-              solo-inverted
-              class="rounded-lg"
-              placeholder="Search . . ."
-            />
-          </v-col>
-        </v-row>
-      </v-container>
-      <template #extension>
-        <v-container>
-          <v-row align="center" justify="space-between">
-            <v-col cols="auto">
-              <v-btn
-                class="rounded-lg text-none"
-                color="primary"
-                text
-                plain
-                nuxt
-                link
-                to="/"
-              >
-                Home
-              </v-btn>
-              <v-btn
-                class="rounded-lg text-none"
-                color="primary"
-                text
-                plain
-                nuxt
-                link
-                to="/profile"
-              >
-                Profile
-              </v-btn>
-              <v-btn
-                class="rounded-lg text-none"
-                color="primary"
-                text
-                plain
-                nuxt
-                link
-                to="/projects"
-              >
-                Projects
-              </v-btn>
-            </v-col>
-            <v-col cols="auto">
-              <v-btn
-                class="rounded-lg text-none"
-                color="secondary"
-                text
-                plain
-                nuxt
-                link
-                to="/logout"
-              >
-                Log Out
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-container>
-      </template>
-    </v-app-bar>
-
-    <v-main class="grey lighten-4">
-      <v-container>
-        <v-breadcrumbs :items="breadcrumbs" />
-        <nuxt />
+  <v-app dark>
+    <v-main>
+      <v-container fluid class="fill-height pa-0">
+        <v-carousel
+          class="log--container-bg-images grey lighten-4"
+          hide-delimiter-background
+          hide-delimiters
+          height="100%"
+          :show-arrows="false"
+          touchless
+        >
+          <v-carousel-item
+            :src="`backgrounds/bg-${currentBackgroundImage}.jpg`"
+            class="log--item-bg-image grey lighten-4"
+            reverse-transition="fade-transition"
+            transition="fade-transition"
+            eager
+          />
+      </v-carousel>
+      <div class="log--container-main fill-height">
+        <Nuxt />
+      </div>
       </v-container>
     </v-main>
-
-    <v-footer
-      app
-      elevation="5"
-      class="text-center"
-    >
-      <v-row align="center" justify="center">
-        <v-col>
-          <span>Supernova Corp Ltd. &copy; {{ new Date().getFullYear() }}</span>
-        </v-col>
-      </v-row>
-    </v-footer>
   </v-app>
 </template>
 
 <script>
 export default {
-  name: 'Home',
-  data () {
+  name: 'DefaultLayout',
+  data() {
     return {
-      breadcrumbs: [
-        {
-          text: 'Home',
-          disabled: true,
-          exact: false,
-          to: '/',
-        }
-      ]
+      currentBackgroundImage: 1,
+      intervalBackgroundImage: null,
     }
   },
-  methods: {
-    async doLogout() {
-      await this.$router.push('/logout');
+  mounted() {
+    if (!this.intervalBackgroundImage) {
+      clearInterval(this.intervalBackgroundImage);
+
+      this.intervalBackgroundImage = setInterval(() => {
+        this.handlerBackgroundImages();
+      }, (1000 * 60) * 5 );
     }
+  },
+  beforeDestroy() {
+    if (this.intervalBackgroundImage) clearInterval(this.intervalBackgroundImage);
+  },
+  methods: {
+    handlerBackgroundImages() {
+      this.currentBackgroundImage = Math.floor(Math.random() * (15 - 1 + 1) + 1);
+    },
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.log--container-bg-images {
+  position: absolute;
+  overflow: hidden;
+  height: 100vh !important;
+  width: 100vw !important;
+  object-fit: cover !important;
+  .log--item-bg-image {
+    height: 100vh !important;
+    width: 100%;
+  }
+}
+.log--container-main {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: rgb(45,45,45);
+  background: linear-gradient(360deg, rgba(45,45,45,0.7) 0%, rgba(45,45,45,0.7) 100%);
+}
+</style>

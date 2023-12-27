@@ -28,6 +28,7 @@ import CardProjects from '~/components/project/CardProject.vue';
 
 export default {
   name: 'PortalBulletin',
+  layout: 'admin',
   components: {
     CardProjects,
   },
