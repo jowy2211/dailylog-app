@@ -122,4 +122,13 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  render: {
+    csp: {
+      addMeta: true,
+      policies: {
+        'upgrade-insecure-requests': true
+      }
+    }
+  }
 }
