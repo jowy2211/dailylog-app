@@ -1,0 +1,23 @@
+@import '../variables.scss';
+
+html {
+  scroll-behavior: smooth;
+}
+* {
+  box-sizing: border-box;
+}
+
+.v-application {
+  background-color: $background !important;
+}
+
+
+.dailylog-app--card {
+  background: color-mix(in srgb, $background, transparent 75%) !important;
+  backdrop-filter: blur(16px) !important;
+}
+
+.dailylog-app--card-no-background {
+  background: color-mix(in srgb, $primary, transparent 75%) !important;
+  backdrop-filter: blur(16px) !important;
+}
