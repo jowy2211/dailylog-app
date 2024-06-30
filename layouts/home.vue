@@ -48,13 +48,11 @@
                 </template>
                 <span>Portal</span>
               </v-tooltip>
-            </template>
-            <template v-else>
               <v-tooltip bottom>
                 <template #activator="{ on, attrs }">
                   <v-btn
                     text
-                    to="/daily-log"
+                    to="/project"
                     nuxt
                     link
                     v-bind="attrs"
@@ -63,7 +61,24 @@
                   <v-icon>mdi-account-clock</v-icon>
                   </v-btn>
                 </template>
-                <span>Daily Log</span>
+                <span>My Project</span>
+              </v-tooltip>
+            </template>
+            <template v-else>
+              <v-tooltip bottom>
+                <template #activator="{ on, attrs }">
+                  <v-btn
+                    text
+                    to="/project"
+                    nuxt
+                    link
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                  <v-icon>mdi-account-clock</v-icon>
+                  </v-btn>
+                </template>
+                <span>My Project</span>
               </v-tooltip>
               <v-tooltip bottom>
                 <template #activator="{ on, attrs }">

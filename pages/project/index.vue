@@ -13,7 +13,6 @@
     <v-row>
       <v-col v-for="(item, index) in project" :key="`item-project-${index}`" cols="12" lg="4" md="6" sm="12">
         <v-card
-          dark
           flat
           nuxt
           link
@@ -22,22 +21,33 @@
           min-height="20vh"
           :to="`/project/detail/${item.code}`"
         >
-          <v-card-title>{{ item.name }}</v-card-title>
-          <v-card-subtitle>{{ item.code }}</v-card-subtitle>
+          <v-card-title>
+            <div class="white--text text-h5">{{ item.name }}</div>
+          </v-card-title>
+          <v-card-subtitle>
+            <div class="white--text text-subtitle-1">{{ item.code }}</div>
+          </v-card-subtitle>
           <v-divider />
           <v-card-text>
-            <v-row dense>
+            <v-row dense class="white--text">
               <v-col cols="4">
-                Total Member
+                <div class="font-weight-bold">Total Member</div>
               </v-col>
               <v-col cols="8">
                 : {{ item._count.member }}
               </v-col>
               <v-col cols="4">
-                Status
+                <div class="font-weight-bold">Status</div>
               </v-col>
               <v-col cols="8">
-                : {{ item.status }}
+                : <v-chip
+                  small
+                  label
+                  dark
+                  :color="projectStatus.find((i) => i.value === item.status)?.color"
+                  >
+                    {{ projectStatus.find((i) => i.value === item.status)?.text }}
+                  </v-chip>
               </v-col>
             </v-row>
           </v-card-text>
@@ -68,6 +78,9 @@ export default {
     },
     project() {
       return this.$store.getters['project/getProjectList'];
+    },
+    projectStatus() {
+      return this.$utilities.projectStatus();
     }
   },
   methods: {}

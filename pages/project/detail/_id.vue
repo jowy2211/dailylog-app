@@ -11,7 +11,7 @@
       Back
     </v-btn>
     <v-card
-      dark
+      v-if="detail"
       flat
       nuxt
       link
@@ -20,19 +20,32 @@
       min-height="20vh"
     >
       <v-card-title class="flex align-center justify-space-between">
-        <div class="text-h3 font-weight-bold">
-          {{ detail && detail.name }}
+        <div class="white--text text-h3 font-weight-bold">
+          {{ detail.name }}
         </div>
         <div>
-          <v-chip class="font-weight-light text-none" color="info">{{ detail && detail.status }}</v-chip>
+          <v-chip
+            label
+            dark
+            class="font-weight-light"
+            :color="projectStatus.find((item) => item.value === detail.status)?.color"
+          >
+            {{ projectStatus.find((item) => item.value === detail.status)?.text }}
+          </v-chip>
         </div>
       </v-card-title>
-      <v-card-subtitle class="font-weight-bold">{{ detail && detail.code }}</v-card-subtitle>
+      <v-card-subtitle class="white--text text-4 font-weight-bold">
+        {{ detail.code }}
+      </v-card-subtitle>
       <v-divider />
       <v-card-text>
         <v-row dense>
-          <v-col v-for="(item, index) in detail?.member ?? []" :key="`item-member-${index}`" cols="4">
-            <v-list three-line light class="rounded">
+          <v-col
+            v-for="(item, index) in detail?.member ?? []"
+            :key="`item-member-${index}`"
+            cols="4"
+          >
+            <v-list two-line light class="rounded">
               <v-list-item>
                 <v-list-item-avatar>
                   <v-avatar
@@ -49,9 +62,9 @@
                   <v-list-item-subtitle>{{ item.responsibility }} - <small>{{ item.description }}</small></v-list-item-subtitle>
                 </v-list-item-content>
 
-                <v-list-item-icon>
+                <!-- <v-list-item-icon>
                   <v-icon>mdi-crown-circle</v-icon>
-                </v-list-item-icon>
+                </v-list-item-icon> -->
               </v-list-item>
             </v-list>
           </v-col>
@@ -76,15 +89,16 @@ export default {
   computed: {
     detail() {
       return this.$store.getters['project/getProjectDetail'];
+    },
+    projectStatus() {
+      return this.$utilities.projectStatus();
     }
   },
   methods: {
     handlerAvatarTitle(fullname) {
       const splitText = fullname.split(' ');
 
-      if (splitText.legth > 2) return splitText.pop().map((txt) => txt.slice(0, 1)).join('');
-
-      return splitText.map((txt) => txt.slice(0, 1)).join('')
+      return splitText.slice(0, 2).map((txt) => txt.slice(0, 1)).join('');
     }
   }
 }
