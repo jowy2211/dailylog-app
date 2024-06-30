@@ -1,4 +1,5 @@
 export default {
+  target: 'static',
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s | Daily Log Application',
@@ -124,11 +125,6 @@ export default {
   build: {},
 
   render: {
-    csp: {
-      addMeta: true,
-      policies: {
-        'upgrade-insecure-requests': true
-      }
-    }
+    csp: true,
   }
 }
