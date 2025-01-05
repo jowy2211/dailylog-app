@@ -23,5 +23,18 @@ export default ({ store }, inject) => {
       { text: 'Project Analyst', value: 'PROJECT_ANALYST', color: 'lime' },
       { text: 'Product Owner', value: 'PRODUCT_OWNER', color: 'gray darken-1' },
     ],
+    categoryActivity: () => [
+      { text: 'Project Task', value: 'TASK', color: 'default' },
+      { text: 'Project Initiating', value: 'INITIATE', color: 'default' },
+      { text: 'Project Research', value: 'RESEARCH', color: 'default' },
+      { text: 'Study', value: 'STUDY', color: 'default' },
+      { text: 'Idle', value: 'IDLE', color: 'default' },
+      { text: 'Off Work', value: 'OFF_WORK', color: 'default' },
+      { text: 'Off Sick', value: 'OFF_SICK', color: 'default' },
+      { text: 'Meeting', value: 'MEETING_INTERNAL', color: 'default' },
+      { text: 'Discussion', value: 'DISCUSSION', color: 'default' },
+      { text: 'Meeting with External', value: 'MEETING_EXTERNAL', color: 'default' },
+      { text: 'Other Activity', value: 'OTHERS', color: 'default' },
+    ]
   });
 };

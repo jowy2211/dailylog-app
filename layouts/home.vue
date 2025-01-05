@@ -69,6 +69,21 @@
                 <template #activator="{ on, attrs }">
                   <v-btn
                     text
+                    to="/activities"
+                    nuxt
+                    link
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                  <v-icon>mdi-clock</v-icon>
+                  </v-btn>
+                </template>
+                <span>My Activities</span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template #activator="{ on, attrs }">
+                  <v-btn
+                    text
                     to="/project"
                     nuxt
                     link

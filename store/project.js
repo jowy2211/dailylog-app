@@ -111,6 +111,24 @@ export const actions = {
       throw error;
     }
   },
+  async initProjectUpdateStatus({ commit, state }, payload) {
+    try {
+      await commit('INIT_PROJECT_LOADING', true);
+
+      const res = await this.$axios.$patch(`api/projects/status/${payload.id}`, payload.data);
+
+      if (res && res.statusCode === 200) {
+        await commit('INIT_PROJECT_DETAIL', { ...state.detail, ...res.data });
+        await commit('INIT_PROJECT_LOADING', false);
+
+        return res;
+      }
+    } catch (error) {
+      await commit('INIT_PROJECT_LOADING', false);
+
+      throw error;
+    }
+  },
   async initProjectRemove({ commit }, payload) {
     try {
       await commit('INIT_PROJECT_LOADING', true);

@@ -162,20 +162,20 @@
                 </td>
                 <td>
                   <v-tooltip content-class="elevation rounded" right>
-                  <template #activator="{ on, attrs }">
-                    <v-btn
-                      v-bind="attrs"
-                      class="elevation rounded mr-1"
-                      icon
-                      small
-                      v-on="on"
-                      @click="handlerRemoveMember(item)"
-                    >
-                      <v-icon small color="error"> mdi-delete </v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Remove Member</span>
-                </v-tooltip>
+                    <template #activator="{ on, attrs }">
+                      <v-btn
+                        v-bind="attrs"
+                        class="elevation rounded mr-1"
+                        icon
+                        small
+                        v-on="on"
+                        @click="handlerRemoveMember(item)"
+                      >
+                        <v-icon small color="error"> mdi-delete </v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Remove Member</span>
+                  </v-tooltip>
                 </td>
               </tr>
             </template>
