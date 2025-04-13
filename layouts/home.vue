@@ -48,23 +48,23 @@
                 </template>
                 <span>Portal</span>
               </v-tooltip>
-              <v-tooltip bottom>
+            </template>
+            <template v-else>
+              <v-tooltip v-if="user?.role?.code === 'PROJECT_MANAGER'" bottom>
                 <template #activator="{ on, attrs }">
                   <v-btn
                     text
-                    to="/project"
+                    to="/portal"
                     nuxt
                     link
                     v-bind="attrs"
                     v-on="on"
                   >
-                  <v-icon>mdi-account-clock</v-icon>
+                  <v-icon>mdi-application-cog</v-icon>
                   </v-btn>
                 </template>
-                <span>My Project</span>
+                <span>Portal</span>
               </v-tooltip>
-            </template>
-            <template v-else>
               <v-tooltip bottom>
                 <template #activator="{ on, attrs }">
                   <v-btn
@@ -128,17 +128,9 @@
         </v-row>
       </v-container>
     </v-app-bar>
-    <v-img
-      lazy-src="images/bg-home.jpg"
-      src="images/bg-home.jpg"
-      alt="Background Home"
-      class="dailylog-app--bg-home pa-0 ma-0"
-      gradient="0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)"
-    >
-      <v-main style="height: 100%; overflow-y: auto;">
-        <Nuxt />
-      </v-main>
-    </v-img>
+    <v-main class="primary darken-3">
+      <Nuxt />
+    </v-main>
     <DialogLogin
       :is-open="dialog.status"
       @onClose="dialog.status = false"

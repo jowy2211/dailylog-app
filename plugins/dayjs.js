@@ -8,7 +8,7 @@ export default (context, inject) => {
   inject('dayjs', {
     getDate: () => dayjs().format('YYYY-MM-DD'),
     getFormattedDate: (value) => dayjs(value).format('dddd, DD MMM YYYY'),
-    getTime: () => dayjs().format('HH:mm'),
+    getTime: () => dayjs().format('HH:mm A'),
     getText: () => {
       const hour = Number(dayjs().hour());
 

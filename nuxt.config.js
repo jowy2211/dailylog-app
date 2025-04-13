@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 export default {
   ssr: false,
   target: 'static',
@@ -56,13 +58,15 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    // https://www.npmjs.com/package/@nuxtjs/dotenv
+    ['@nuxtjs/dotenv', { path: './', filename: '.env' }],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'http://localhost:3001/',
+    baseURL: process.env.API_URL,
   },
 
   middleware: 'auth',
@@ -124,4 +128,9 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  publicRuntimeConfig: {
+    app: process.env.APP_URL,
+    api: process.env.API_URL,
+  },
 }

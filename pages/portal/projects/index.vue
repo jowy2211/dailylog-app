@@ -119,7 +119,7 @@ export default {
         search: null,
         headers: [
           { text: 'Code', value: 'code', sortable: false },
-          { text: 'Name', value: 'name' },
+          { text: 'Title', value: 'name' },
           { text: 'Start Project', value: 'start_date' },
           { text: 'End Project', value: 'end_date' },
           { text: 'Total Member', value: '_count.member' },

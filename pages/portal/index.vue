@@ -1,148 +1,200 @@
 <template>
-  <v-container>
+  <v-container fluid class="px-5">
     <v-row dense>
       <v-col cols="12">
         <v-card dark flat class="dailylog-app--card">
-          <v-card-title>
-            Welcome, Portal Admin!
-          </v-card-title>
-          <v-card-subtitle>Navigation Management Data</v-card-subtitle>
           <v-card-text>
-            <v-row>
+            <v-row align="start" justify="space-between">
               <v-col cols="auto">
-                <v-btn
-                  text
-                  exact
-                  class="text-none"
-                  nuxt
-                  link
-                  to="/portal/projects"
-                >
-                  Projects
-                </v-btn>
+                <v-row v-if="isLoggedIn && user?.role?.code === 'ADMIN'" dense>
+                  <v-col cols="12">
+                    <div class="text-h2 mx-4">Welcome to Portal Admin!</div>
+                    <div class="text-h6 mx-4">Navigation Management Data</div>
+                  </v-col>
+                  <v-col cols="auto">
+                    <v-btn
+                      text
+                      exact
+                      class="text-none"
+                      nuxt
+                      link
+                      to="/portal/projects"
+                    >
+                      Projects
+                    </v-btn>
+                  </v-col>
+                  <v-col cols="auto">
+                    <v-btn
+                      text
+                      exact
+                      class="text-none"
+                      nuxt
+                      link
+                      to="/portal/users"
+                    >
+                      Users
+                    </v-btn>
+                  </v-col>
+                  <v-col cols="auto">
+                    <v-btn
+                      text
+                      exact
+                      class="text-none"
+                      @click="dialog.status = true"
+                    >
+                      Import Daily Logs
+                    </v-btn>
+                  </v-col>
+                </v-row>
+                <v-row v-if="isLoggedIn && user?.role?.code === 'PROJECT_MANAGER'">
+                  <v-col cols="12">
+                    <div class="text-h2 mx-4">Welcome to Portal Admin!</div>
+                    <div class="text-h6 mx-4">Apply filter to view Dashboard</div>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-select
+                      v-model="filter.project_id"
+                      :items="project"
+                      item-text="name"
+                      item-value="id"
+                      light
+                      solo
+                      flat
+                      placeholder="Select Project"
+                    />
+                  </v-col>
+                </v-row>
               </v-col>
               <v-col cols="auto">
-                <v-btn
-                  text
-                  exact
-                  class="text-none"
-                  nuxt
-                  link
-                  to="/portal/users"
-                >
-                  Users
-                </v-btn>
-              </v-col>
-              <v-col cols="auto">
-                <v-btn
-                  text
-                  exact
-                  class="text-none"
-                  nuxt
-                  link
-                  to="/portal/daily-logs"
-                >
-                  Import Daily Logs
-                </v-btn>
+                <v-row dense>
+                  <v-col cols="12">
+                    <div class="text-h3">{{ time.text }}</div>
+                    <div class="text-h5">{{ time.full }}</div>
+                    <div class="text-h5">{{ time.now }}</div>
+                  </v-col>
+                </v-row>
               </v-col>
             </v-row>
           </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="12">
-        <v-card dark flat color="transparent">
-          <v-card-text>
-            <v-row dense>
-              <v-col cols="3">
-                <v-card flat class="dailylog-app--card-no-background">
-                  <v-card-title class="justify-space-between">Active Project<v-icon size="36">mdi-bookmark</v-icon></v-card-title>
-                  <v-card-subtitle>TOTAL</v-card-subtitle>
-                  <v-card-text>
-                    <div class="text-h1 text-right font-weight-bold">
-                      0
-                    </div>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-              <v-col cols="3">
-                <v-card flat class="dailylog-app--card">
-                  <v-card-title class="justify-space-between">Complete Project<v-icon size="36" color="success">mdi-bookmark-check</v-icon></v-card-title>
-                  <v-card-subtitle>TOTAL</v-card-subtitle>
-                  <v-card-text>
-                    <div class="text-h1 text-right font-weight-bold">
-                      0
-                    </div>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-              <v-col cols="3">
-                <v-card flat class="dailylog-app--card">
-                  <v-card-title class="justify-space-between">Discontinued Project<v-icon size="36" color="orange">mdi-bookmark-remove</v-icon></v-card-title>
-                  <v-card-subtitle>TOTAL</v-card-subtitle>
-                  <v-card-text>
-                    <div class="text-h1 text-right font-weight-bold">
-                      0
-                    </div>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-              <v-col cols="3">
-                <v-card flat class="dailylog-app--card">
-                  <v-card-title class="justify-space-between">Employee<v-icon size="36" color="yellow darken-1">mdi-lightning-bolt</v-icon></v-card-title>
-                  <v-card-subtitle>TOTAL</v-card-subtitle>
-                  <v-card-text>
-                    <div class="text-h1 text-right font-weight-bold">
-                      0
-                    </div>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="6">
-        <v-card dark flat class="dailylog-app--card">
-          <v-card-title>
-            Bar Chart Performances
-          </v-card-title>
-        </v-card>
-      </v-col>
-      <v-col cols="6">
-        <v-card dark flat class="dailylog-app--card">
-          <v-card-title>
-            Bar Chart Achievements
-          </v-card-title>
-        </v-card>
-      </v-col>
-      <v-col cols="6">
-        <v-card dark flat class="dailylog-app--card">
-          <v-card-title>
-            Line Chart Load
-          </v-card-title>
-        </v-card>
-      </v-col>
-      <v-col cols="6">
-        <v-card dark flat class="dailylog-app--card">
-          <v-card-title>
-            Line Chart Overwork
-          </v-card-title>
-        </v-card>
-      </v-col>
-      <v-col cols="12">
-        <v-card dark flat class="dailylog-app--card">
-          <v-card-title>
-            Table Data List Current Projects
-          </v-card-title>
         </v-card>
       </v-col>
     </v-row>
+    <DashboardExecutive v-if="isLoggedIn && user?.role?.code === 'ADMIN'" />
+    <DashboardProjectManager v-if="isLoggedIn && user?.role?.code === 'PROJECT_MANAGER'" />
+    <DialogImportFile :is-open="dialog.status" @onClose="dialog.status = false" />
   </v-container>
 </template>
 
 <script>
+import DialogImportFile from '@/components/dialog/dialog-import-file.vue';
+import DashboardExecutive from '@/components/dashboards/executive.vue';
+import DashboardProjectManager from '@/components/dashboards/project-manager.vue';
+
 export default {
   name: 'PortalPage',
+  components: { DialogImportFile, DashboardExecutive, DashboardProjectManager },
   transition: 'slide-x-transition',
+  async asyncData({ $auth, store }) {
+    if ($auth.user && $auth.user?.employees?.code !== 'ADMIN') {
+      await store.dispatch('project/initProjectList');
+      // const projects = await store.getters['project/getProjectList'];
+      const applyFilter = {
+        project_id: null,
+        start_date: new Date('2023-01-01'),
+        end_date: new Date('2024-01-31')
+      }
+
+      await store.dispatch('dashboard/initDashboardPerformance', {
+        params: applyFilter
+      });
+
+      return {
+        filter: applyFilter
+      }
+    }
+  },
+  data() {
+    return {
+      table: {
+        headers: [
+          { text: 'Code', value: 'code', sortable: false },
+          { text: 'Title', value: 'name' },
+          { text: 'Start Project', value: 'start_date' },
+          { text: 'End Project', value: 'end_date' },
+          { text: 'Total Member', value: '_count.member' },
+          { text: 'Status', value: 'status' }
+        ],
+        items: [],
+        search: null
+      },
+      time: {
+        interval: null,
+        now: this.$dayjs.getTime(),
+        text: this.$dayjs.getText(),
+        full: this.$dayjs.getFormattedDate()
+      },
+      dialog: {
+        status: false,
+        selected: null,
+      },
+      filter: {
+        project_id: null,
+        start_date: new Date(),
+        end_date: new Date()
+      }
+    };
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$auth.loggedIn;
+    },
+    status() {
+      return this.$utilities.projectStatus();
+    },
+    user() {
+      return this.$auth.user;
+    },
+    project() {
+      return this.$store.getters['project/getProjectList'];
+    },
+  },
+  beforeDestroy() {
+    if (this.time.interval) clearInterval(this.time.interval);
+  },
+  mounted() {
+    if (!this.time.interval) this.renderTime();
+  },
+  methods: {
+    async handlerDashboardPerformance() {
+      try {
+        await this.$nuxt.$loading.start();
+        const res = await this.$store.dispatch('dashboard/initDashboardPerformance', {
+          params: {
+            ...this.filter,
+          }
+        });
+
+        if (res) await this.$nuxt.$loading.finish();
+      } catch (error) {
+        await this.$nuxt.$loading.finish();
+        const err = error.data;
+
+        await this.$utilities.snackbar({
+          status: true,
+          type: 'error',
+          message: err?.message || error.message,
+        });
+      }
+    },
+    renderTime() {
+      clearInterval(this.time.interval);
+      if (!this.time.interval) {
+        this.time.interval = setInterval(() => {
+          this.time.now = this.$dayjs.getTime();
+          this.time.text = this.$dayjs.getText();
+        }, 1000);
+      }
+    },
+  }
 }
 </script>
