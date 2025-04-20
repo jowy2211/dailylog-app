@@ -1,29 +1,15 @@
 const staticColors = [
-  'rgba(255, 99, 132, 1)',  // Red
-  'rgba(54, 162, 235, 1)',  // Blue
   'rgba(75, 192, 192, 1)',  // Teal
   'rgba(255, 159, 64, 1)',  // Orange
   'rgba(153, 102, 255, 1)', // Purple
   'rgba(255, 205, 86, 1)',  // Yellow
   'rgba(46, 204, 113, 1)',  // Green
+  'rgba(236, 64, 122, 1)',  // Pink
   'rgba(231, 76, 60, 1)',   // Crimson
   'rgba(52, 152, 219, 1)',  // Sky Blue
-  'rgba(241, 196, 15, 1)',  // Mustard
-  'rgba(155, 89, 182, 1)',  // Violet
-  'rgba(26, 188, 156, 1)',  // Turquoise
-  'rgba(230, 126, 34, 1)',  // Carrot
   'rgba(52, 73, 94, 1)',    // Slate (darker for contrast)
-  'rgba(236, 64, 122, 1)',  // Pink
-  'rgba(39, 174, 96, 1)',   // Emerald
-  'rgba(142, 68, 173, 1)',  // Amethyst
-  'rgba(211, 84, 0, 1)',    // Burnt Orange
   'rgba(44, 62, 80, 1)',    // Midnight (darker)
   'rgba(241, 148, 138, 1)', // Coral
-  'rgba(72, 201, 176, 1)',  // Mint
-  'rgba(192, 57, 43, 1)',   // Dark Red
-  'rgba(133, 193, 233, 1)', // Light Blue
-  'rgba(243, 156, 18, 1)',  // Amber
-  'rgba(171, 71, 188, 1)'   // Deep Purple
 ];
 
 export default ({ store }, inject) => {
@@ -70,6 +56,21 @@ export default ({ store }, inject) => {
     ],
     generateColors(count) {
       return staticColors[count];
+    },
+    getRandomUniqueColors(count, opacity = 0.5) {
+      if (count <= 0) return [];
+      const indices = Array.from({ length: staticColors.length }, (_, i) => i);
+      for (let i = indices.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [indices[i], indices[j]] = [indices[j], indices[i]];
+      }
+      const selectedIndices = [];
+      for (let i = 0; i < count; i++) {
+        selectedIndices.push(indices[i]);
+      }
+      return selectedIndices.map((_, index) => {
+        return staticColors[index]
+      });
     }
   });
 };

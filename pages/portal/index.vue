@@ -86,9 +86,9 @@
 </template>
 
 <script>
-import DialogImportFile from '@/components/dialog/dialog-import-file.vue';
 import DashboardExecutive from '@/components/dashboards/executive.vue';
 import DashboardProjectManager from '@/components/dashboards/project-manager.vue';
+import DialogImportFile from '@/components/dialog/dialog-import-file.vue';
 
 export default {
   name: 'PortalPage',
@@ -105,6 +105,18 @@ export default {
       }
 
       await store.dispatch('dashboard/initDashboardPerformance', {
+        params: applyFilter
+      });
+
+      await store.dispatch('dashboard/initDashboardWorkload', {
+        params: applyFilter
+      });
+
+      await store.dispatch('dashboard/initDashboardProductivity', {
+        params: applyFilter
+      });
+
+      await store.dispatch('dashboard/initDashboardTrend', {
         params: applyFilter
       });
 
