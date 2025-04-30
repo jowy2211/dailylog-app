@@ -86,9 +86,10 @@
 </template>
 
 <script>
-import DashboardExecutive from '@/components/dashboards/executive.vue';
-import DashboardProjectManager from '@/components/dashboards/project-manager.vue';
-import DialogImportFile from '@/components/dialog/dialog-import-file.vue';
+import DashboardExecutive from '@/components/dashboards/executive.vue'
+import DashboardProjectManager
+  from '@/components/dashboards/project-manager.vue'
+import DialogImportFile from '@/components/dialog/dialog-import-file.vue'
 
 export default {
   name: 'PortalPage',
@@ -101,7 +102,7 @@ export default {
       const applyFilter = {
         project_id: null,
         start_date: new Date('2023-01-01'),
-        end_date: new Date('2024-01-31')
+        end_date: new Date()
       }
 
       await store.dispatch('dashboard/initDashboardPerformance', {
