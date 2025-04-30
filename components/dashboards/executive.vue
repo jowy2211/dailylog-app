@@ -188,8 +188,16 @@
 </template>
 
 <script>
-import { Chart, registerables } from 'chart.js';
-import { Bar, Doughnut, Line as LineChart, Pie } from 'vue-chartjs';
+import {
+  Chart,
+  registerables,
+} from 'chart.js'
+import {
+  Bar,
+  Doughnut,
+  Line as LineChart,
+  Pie,
+} from 'vue-chartjs'
 
 Chart.register(...registerables);
 
@@ -399,12 +407,12 @@ export default {
           {
             label: 'Tasks',
             data: this.dashboardProductivity.activitiesPerProject.map(item => item.taskCount),
-            backgroundColor: this.$utilities.getRandomUniqueColors(1, 0.5)[0],
+            backgroundColor: this.$utilities.getRandomUniqueColors(this.dashboardProductivity.activitiesPerProject.length, 0.5),
           },
           {
             label: 'Bug Fixing',
             data: this.dashboardProductivity.activitiesPerProject.map(item => item.bugFixingCount),
-            backgroundColor: this.$utilities.getRandomUniqueColors(1, 0.5, ['rgba(231, 76, 60, 0.5)'])[0],
+            backgroundColor: this.$utilities.getRandomUniqueColors(this.dashboardProductivity.activitiesPerProject.length, 0.5),
           },
         ],
       };
