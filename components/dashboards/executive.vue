@@ -1,5 +1,82 @@
 <template>
   <div>
+    <v-card flat class="dailylog-app--card my-2">
+      <v-card-text>
+        <v-form ref="form" v-model="form.status" @submit.prevent="doFilter">
+          <v-row dense>
+            <v-col cols="12">
+              <div class="text-h4 white--text">Apply Filter</div>
+            </v-col>
+            <v-col cols="3">
+              <v-menu
+                v-model="form.data.start_date.picker"
+                min-width="auto"
+              >
+                <template #activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="form.data.start_date.value"
+                    label="Start Date"
+                    readonly
+                    solo
+                    flat
+                    append-icon="mdi-calendar"
+                    v-bind="attrs"
+                    v-on="on"
+                  />
+                </template>
+                <v-date-picker
+                  v-model="form.data.start_date.value"
+                  no-title
+                  :min="$dayjs.getDateCustom(new Date('2023-01-01'))"
+                  :max="$dayjs.getDate()"
+                  @input="form.data.start_date.picker = false"
+                />
+              </v-menu>
+            </v-col>
+            <v-col cols="3">
+              <v-menu
+                v-model="form.data.end_date.picker"
+                min-width="auto"
+              >
+                <template #activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="form.data.end_date.value"
+                    label="End Date"
+                    :disabled="!form.data.start_date.value"
+                    readonly
+                    solo
+                    flat
+                    append-icon="mdi-calendar"
+                    v-bind="attrs"
+                    v-on="on"
+                  />
+                </template>
+                <v-date-picker
+                  v-model="form.data.end_date.value"
+                  no-title
+                  :min="form.data.start_date.value"
+                  :max="$dayjs.getDate()"
+                  @input="form.data.end_date.picker = false"
+                />
+              </v-menu>
+            </v-col>
+            <v-col cols="auto">
+              <v-btn
+                type="submit"
+                color="primary"
+                class="text-none mb-2"
+                depressed
+                block
+                height="48"
+                :loading="isLoading"
+              >
+                Apply
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-form>
+      </v-card-text>
+    </v-card>
     <v-card dark flat class="dailylog-app--card my-2">
       <v-card-text>
         <v-row dense>
@@ -204,8 +281,35 @@ Chart.register(...registerables);
 export default {
   name: 'DashboardExecutiveComponents',
   components: { Bar, LineChart, Pie, Doughnut },
+  props: {
+    filter: {
+      type: Object,
+      default: () => ({
+        project_id: null,
+        start_date: new Date(),
+        end_date: new Date()
+      })
+    }
+  },
   data() {
     return {
+      form: {
+        status: false,
+        data: {
+          start_date: {
+            picker: false,
+            value: this.$dayjs.getDateCustom(this.filter.start_date, 'YYYY-MM-DD'),
+          },
+          end_date: {
+            picker: false,
+            value: this.$dayjs.getDateCustom(this.filter.end_date, 'YYYY-MM-DD'),
+          },
+        },
+        rules: {
+          start_date: [(v) => !!v || 'This field is required'],
+          end_date: [(v) => !!v || 'This field is required']  
+        }
+      },
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false,
@@ -226,7 +330,7 @@ export default {
       return this.$store.getters['dashboard/getDashboardActivityTrend'];
     },
     isLoading() {
-      return this.$store.getters['dashboard/getActivityLoading'];
+      return this.$store.getters['dashboard/getDashboardLoading'];
     },
     // Bar Chart Used
     totalHoursData() {
@@ -722,5 +826,18 @@ export default {
       };
     },
   },
+  methods: {
+    async doFilter() {
+      const status = await this.$refs.form.validate();
+
+      if (status) {
+        this.$emit('onApplyFilter', {
+          project_id: this.filter.project_id,
+          start_date: this.form.data.start_date.value,
+          end_date: this.form.data.end_date.value
+        });
+      }
+    }
+  }
 };
 </script>

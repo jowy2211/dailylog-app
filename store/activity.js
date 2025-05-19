@@ -105,4 +105,19 @@ export const actions = {
       throw error;
     }
   },
+  async initImportActivity({ commit }, payload) {
+    try {
+      await commit('INIT_ACTIVITY_LOADING', true);
+      const res = await this.$axios.$post(`api/file-storage/import?member_id=${payload.member_id}`, payload.formData);
+
+      if (res && res.statusCode === 200) {
+        await commit('INIT_ACTIVITY_LOADING', false);
+        return res;
+      }
+    } catch (error) {
+      await commit('INIT_ACTIVITY_LOADING', false);
+
+      throw error;
+    }
+  }
 }

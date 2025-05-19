@@ -79,17 +79,28 @@
         </v-card>
       </v-col>
     </v-row>
-    <DashboardExecutive v-if="isLoggedIn && user?.role?.code === 'ADMIN'" />
-    <DashboardProjectManager v-if="isLoggedIn && user?.role?.code === 'PROJECT_MANAGER'" />
-    <DialogImportFile :is-open="dialog.status" @onClose="dialog.status = false" />
+    <DashboardExecutive
+      v-if="isLoggedIn && user?.role?.code === 'ADMIN'"
+      :filter="filter"
+      @onApplyFilter="handlerApplyFilter"
+    />
+    <DashboardProjectManager
+      v-if="isLoggedIn && user?.role?.code === 'PROJECT_MANAGER'"
+      :filter="filter"
+      @onApplyFilter="handlerApplyFilter"
+    />
+    <DialogImportFile
+      :is-open="dialog.status"
+      @onSubmit="handlerSubmit"
+      @onClose="dialog.status = false"
+    />
   </v-container>
 </template>
 
 <script>
-import DashboardExecutive from '@/components/dashboards/executive.vue'
-import DashboardProjectManager
-  from '@/components/dashboards/project-manager.vue'
-import DialogImportFile from '@/components/dialog/dialog-import-file.vue'
+import DashboardExecutive from '@/components/dashboards/executive.vue';
+import DashboardProjectManager from '@/components/dashboards/project-manager.vue';
+import DialogImportFile from '@/components/dialog/dialog-import-file.vue';
 
 export default {
   name: 'PortalPage',
@@ -99,31 +110,6 @@ export default {
     if ($auth.user && $auth.user?.employees?.code !== 'ADMIN') {
       await store.dispatch('project/initProjectList');
       // const projects = await store.getters['project/getProjectList'];
-      const applyFilter = {
-        project_id: null,
-        start_date: new Date('2023-01-01'),
-        end_date: new Date()
-      }
-
-      await store.dispatch('dashboard/initDashboardPerformance', {
-        params: applyFilter
-      });
-
-      await store.dispatch('dashboard/initDashboardWorkload', {
-        params: applyFilter
-      });
-
-      await store.dispatch('dashboard/initDashboardProductivity', {
-        params: applyFilter
-      });
-
-      await store.dispatch('dashboard/initDashboardTrend', {
-        params: applyFilter
-      });
-
-      return {
-        filter: applyFilter
-      }
     }
   },
   data() {
@@ -152,7 +138,7 @@ export default {
       },
       filter: {
         project_id: null,
-        start_date: new Date(),
+        start_date: new Date('2023-01-01'),
         end_date: new Date()
       }
     };
@@ -174,20 +160,66 @@ export default {
   beforeDestroy() {
     if (this.time.interval) clearInterval(this.time.interval);
   },
-  mounted() {
+  async mounted() {
     if (!this.time.interval) this.renderTime();
+
+    await this.handlerApplyFilter();
   },
   methods: {
-    async handlerDashboardPerformance() {
+    async handlerApplyFilter(payload) {
+      try {
+        if (payload) {
+          this.filter = payload;
+        }
+
+        await Promise.all([
+          this.$store.dispatch('dashboard/initDashboardPerformance', {
+            params: {...this.filter}
+          }),
+          this.$store.dispatch('dashboard/initDashboardWorkload', {
+            params: {...this.filter}
+          }),
+          this.$store.dispatch('dashboard/initDashboardProductivity', {
+            params: {...this.filter}
+          }),
+          this.$store.dispatch('dashboard/initDashboardTrend', {
+            params: {...this.filter}
+          }),
+        ]);
+      } catch (error) {
+        const err = error.data;
+
+        await this.$utilities.snackbar({
+          status: true,
+          type: 'error',
+          message: err?.message || error.message,
+        });
+      }
+    },
+    async handlerSubmit(payload) {
       try {
         await this.$nuxt.$loading.start();
-        const res = await this.$store.dispatch('dashboard/initDashboardPerformance', {
-          params: {
-            ...this.filter,
-          }
-        });
+        this.dialog.status = false;
+        const formData = new FormData();
+  
+        formData.append('file', payload?.file);
 
-        if (res) await this.$nuxt.$loading.finish();
+        const res = await this.$store.dispatch(
+          'activity/initImportActivity',
+          { formData, member_id: payload?.member_id },
+        );
+
+        if (res) {
+          await this.$nuxt.$loading.finish();
+
+          await this.$utilities.snackbar({
+            status: true,
+            type: 'success',
+            message: 'Successfuly Imported!',
+          });
+
+          await this.$nuxt.refresh();
+        }
       } catch (error) {
         await this.$nuxt.$loading.finish();
         const err = error.data;

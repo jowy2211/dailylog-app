@@ -29,7 +29,7 @@ export const getters = {
   getDashboardWorkload: (state) => state.workload,
   getDashboardProductivity: (state) => state.productivity,
   getDashboardActivityTrend: (state) => state.activityTrend,
-  getActivityLoading: (state) => state.isLoading,
+  getDashboardLoading: (state) => state.isLoading,
 }
 
 export const actions = {

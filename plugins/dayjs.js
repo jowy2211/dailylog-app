@@ -6,6 +6,7 @@ dayjs.extend(weekday, duration);
 
 export default (context, inject) => {
   inject('dayjs', {
+    getDateCustom: (value, format = null) => dayjs(value).format(format),
     getDate: () => dayjs().format('YYYY-MM-DD'),
     getFormattedDate: (value) => dayjs(value).format('dddd, DD MMM YYYY'),
     getTime: () => dayjs().format('HH:mm A'),

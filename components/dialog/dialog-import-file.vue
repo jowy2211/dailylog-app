@@ -26,6 +26,31 @@
               </v-btn>
             </v-col>
             <v-col cols="12">
+              <v-select
+                v-model="selected.project_id"
+                :rules="form.rules.project_id"
+                :items="projects"
+                item-text="name"
+                label="Select Project"
+                solo
+                flat
+                return-object
+              />
+            </v-col>
+            <v-col cols="12">
+              <v-select
+                v-model="form.data.member_id"
+                :rules="form.rules.member_id"
+                :items="selected.project_id?.member"
+                item-text="employee.fullname"
+                item-value="id"
+                label="Select Member"
+                solo
+                flat
+                :disabled="!selected.project_id"
+              />
+            </v-col>
+            <v-col cols="12">
               <v-file-input
                 v-model="form.data.file"
                 :rules="form.rules.file"
@@ -35,6 +60,7 @@
                 flat
                 prepend-icon=""
                 prepend-inner-icon="mdi-file-excel"
+                :disabled="!selected.project_id"
               >
               </v-file-input>
             </v-col>
@@ -45,6 +71,7 @@
                 depressed
                 block
                 height="48"
+                :loading="isLoading"
                 @click="doSubmit"
               >
                 Add
@@ -54,6 +81,7 @@
                 depressed
                 block
                 height="48"
+                :loading="isLoading"
                 @click="$emit('onClose')"
               >
                 Cancel
@@ -81,16 +109,30 @@ export default {
         status: false,
         data: {
           file: null,
+          member_id: null,
         },
         rules: {
           file: [
             (v) => !!v || 'This field is reqiured',
             (v) => this.handlingSelectedFile(v),
           ],
+          project_id: [(v) => !!v || 'This field is required'],
+          member_id: [(v) => !!v || 'This field is required'],
         }
+      },
+      selected: {
+        project_id: null,
       },
       isDownloadTemplate: false,
     }
+  },
+  computed: {
+    projects() {
+      return this.$store.getters['project/getProjectList'];
+    },
+    isLoading() {
+      return this.$store.getters['activity/getActivityLoading'];
+    },
   },
   watch: {
     isOpen(val) {
@@ -104,7 +146,6 @@ export default {
   },
   methods: {
     handlerDownloadTemplate() {
-      console.log(`${this.$config.api}/api/file-storage/template`);
       this.isDownloadTemplate = true;
       const link = document.createElement('a');
       link.download = '';
@@ -134,12 +175,7 @@ export default {
       const status = await this.$refs.form.validate();
 
       if (status) {
-        await this.$store.dispatch(
-          'user/initAddMember',
-          this.form.data,
-        );
-
-        this.$emit('onClose');
+        this.$emit('onSubmit', this.form.data);
       }
     }
   }
